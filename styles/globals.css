@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .font48 {
+    @apply text-[28px] leading-9 sm:text-[32px] sm:leading-10 md:text-[36px] md:leading-[44px] lg:text-[40px] lg:leading-[48px] xl:leading-[52px] xl:text-[44px] 2xl:text-[48px] 2xl:leading-[56px];
+  }
+
+  .font40 {
+    @apply text-xl sm:text-2xl md:text-[28px] md:leading-9 lg:text-[32px] lg:leading-10 xl:leading-[44px] xl:text-[36px] 2xl:text-[40px] 2xl:leading-[48px];
+  }
+
+  .font32 {
+    @apply text-lg md:text-xl lg:text-2xl xl:text-[28px] xl:leading-8 2xl:text-[32px] 2xl:leading-10;
+  }
+
+  .font28 {
+    @apply text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] 2xl:leading-8;
+  }
+
+  .font24 {
+    @apply text-base sm:text-lg md:text-xl xl:text-2xl;
+  }
+
+  .font20 {
+    @apply text-sm sm:text-base md:text-lg xl:text-xl;
+  }
+
+  .font18 {
+    @apply text-xs sm:text-sm md:text-base xl:text-lg;
+  }
+
+  .font16 {
+    @apply text-[10px] sm:text-xs md:text-sm xl:text-base;
+  }
+
+  .font14 {
+    @apply text-[8px] sm:text-[10px] md:text-xs xl:text-sm;
+  }
+
+  .font12 {
+    @apply text-[8px] md:text-[10px] xl:text-xs;
+  }
+}
