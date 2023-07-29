@@ -1,4 +1,4 @@
-import Context from '@/contect/context';
+import Context from '@/context/context';
 import { store } from '@/store';
 import '@/styles/globals.css';
 import { Provider } from 'react-redux';
