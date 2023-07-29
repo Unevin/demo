@@ -2,6 +2,7 @@ import DiscussionMain from '@/components/Discussion/DiscussionMain';
 import Head from 'next/head';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Discussion = () => {
   return (

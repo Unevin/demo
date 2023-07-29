@@ -2,6 +2,7 @@ import ProjectDetailsMain from '@/components/Projects/ProjectDetailsMain';
 import Head from 'next/head';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProjectDetails = () => {
   return (

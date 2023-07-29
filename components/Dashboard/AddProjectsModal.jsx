@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import ModalComp from '../Common/ModalComp';
+import { RandomNdigitnumber, sendErrorToast } from '@/utils';
 
-const AddProjectsModal = () => {
+const AddProjectsModal = ({ CloseFunction }) => {
   //state
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
@@ -61,14 +62,68 @@ const AddProjectsModal = () => {
     _id: '64c4e0480b5904143a990f08',
     __v: 0,
   };
+
+  const SaveProject = async () => {
+    if (projectName?.trim() == '') {
+      sendErrorToast('Please add Project Name');
+      return;
+    }
+    if (projectName?.trim()?.length < 3) {
+      sendErrorToast('Project Name should be at least 3 charecters.');
+      return;
+    }
+    if (projectDescription?.trim() == '') {
+      sendErrorToast('Please provide project description.');
+      return;
+    }
+    let dataTosend = {
+      projectName: projectName || '',
+      projectDescription: projectDescription || '',
+      contactLink: contactLink || '',
+      projectDuration: projectDuration || 0,
+      projectTeamSize: projectTeamSize || 1,
+      projectStartDate:
+        projectStartDate?.trim() == ''
+          ? new Date().toISOString()
+          : new Date(projectStartDate).toISOString(),
+      projectEndDate:
+        projectEndDate?.trim() == ''
+          ? new Date().toISOString()
+          : new Date(projectEndDate).toISOString(),
+      majorTasks: majorTasks || [],
+      challenges: challenges || [],
+      achievements: achievements || [],
+      learnings: learnings || [,],
+      projectSkills: projectSkills || [],
+    };
+  };
+
+  const ResetVariable = () => {
+    setProjectName('');
+    setProjectDescription('');
+    setContactLink('');
+    setProjectDuration(0);
+    setProjectTeamSize(0);
+    setProjectStartDate('');
+    setProjectEndDate('');
+    setMajorTasks([]);
+    setMajorTaskstext('');
+    setChallenges([]);
+    setChallengestext('');
+    setAchievements([]);
+    setAchievementstext('');
+    setLearnings([]);
+    setLearningstext('');
+    setProjectSkills([]);
+  };
   //components
   const HeaderComp = () => {
     return <div className="w-full font-18 font-medium">Add Projects</div>;
   };
   const MainbodyComp = () => {
     return (
-      <div className="w-full h-full rounded-b-md flex flex-col justify-start items-start px-2 py-2 border border-red-600 overflow-y-auto">
-        <div className="w-full h-full rounded-b-md flex flex-col justify-start items-start gap-2 px-4 py-4">
+      <div className="w-full h-[92%] rounded-b-md flex flex-col justify-start items-start px-2 pt-2">
+        <div className="w-full h-full rounded-b-md flex flex-col justify-start items-start gap-2 px-4 py-4  overflow-y-auto">
           <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2 px-4">
             <div className="w-full md:w-1/2 flex flex-col justify-start items-start gap-1">
               <div className="w-full flex justify-start items-center gap-2">
@@ -212,23 +267,203 @@ const AddProjectsModal = () => {
                 </label>
               </div>
               <div className="w-full rounded-md bg-white flex flex-col justify-start items-start">
+                <div className="w-full flex flex-wrap justify-start items-start gap-2 pt-2 px-2">
+                  {(majorTasks || []).slice().map((val) => {
+                    return (
+                      <div
+                        key={RandomNdigitnumber(4)}
+                        className="px-4 py-1.5 bg-button rounded-md text-primary font14"
+                      >
+                        {val}
+                      </div>
+                    );
+                  })}
+                </div>
                 <input
                   id="major_tasks"
                   name="major_tasks"
-                  className="w-full h-10 py-2 font14 focus:outline-none focus:border-gray-700 border border-gray-400 rounded-md px-4"
+                  className="w-full h-8 py-2 font14 focus:outline-none focus:border-gray-700 border-0 border-gray-400 rounded-md px-4"
                   value={majorTaskstext}
                   onChange={(e) => {
                     setMajorTaskstext(e.target.value);
                   }}
                   onBlur={() => {
                     let cloneText = majorTaskstext.slice() || '';
-                    let textArr = cloneText.slice(/,|-/) || [];
-                    console.log('state', 'textArr', textArr);
+                    let textArr = cloneText?.split(/,|-/) || [];
+                    let clonearr = (majorTasks || [])?.slice() || [];
+                    if ((textArr || [])?.length > 0) {
+                      (textArr || [])
+                        .filter((vl) => vl?.trim() !== '')
+                        .map((val) => {
+                          if (!clonearr.includes(val)) {
+                            clonearr.push(val || '');
+                          }
+                        });
+                    }
+                    setMajorTasks(clonearr || []);
+                    setMajorTaskstext('');
                   }}
-                  placeholder="Please add project description"
+                  placeholder="Please add all major tasks speaperated by comma(,) or hyphen (-)"
                 />
               </div>
             </div>
+          </div>
+          <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2 px-4">
+            <div className="w-full flex flex-col justify-start items-start gap-1">
+              <div className="w-full flex justify-start items-center gap-2">
+                <label className="font16 text-secondary font-medium ">
+                  Challenges
+                </label>
+              </div>
+              <div className="w-full rounded-md bg-white flex flex-col justify-start items-start">
+                <div className="w-full flex flex-wrap justify-start items-start gap-2 pt-2 px-2">
+                  {(challenges || []).slice().map((val) => {
+                    return (
+                      <div
+                        key={RandomNdigitnumber(4)}
+                        className="px-4 py-1.5 bg-button rounded-md text-primary font14"
+                      >
+                        {val}
+                      </div>
+                    );
+                  })}
+                </div>
+                <input
+                  id="challenges"
+                  name="challenges"
+                  className="w-full h-8 py-2 font14 focus:outline-none focus:border-gray-700 border-0 border-gray-400 rounded-md px-4"
+                  value={challengestext}
+                  onChange={(e) => {
+                    setChallengestext(e.target.value);
+                  }}
+                  onBlur={() => {
+                    let cloneText = challengestext.slice() || '';
+                    let textArr = cloneText?.split(/,|-/) || [];
+                    let clonearr = (challenges || [])?.slice() || [];
+                    if ((textArr || [])?.length > 0) {
+                      (textArr || [])
+                        .filter((vl) => vl?.trim() !== '')
+                        .map((val) => {
+                          if (!clonearr.includes(val)) {
+                            clonearr.push(val || '');
+                          }
+                        });
+                    }
+                    setChallenges(clonearr || []);
+                    setChallengestext('');
+                  }}
+                  placeholder="Please add all challenges speaperated by comma(,) or hyphen (-)"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2 px-4">
+            <div className="w-full flex flex-col justify-start items-start gap-1">
+              <div className="w-full flex justify-start items-center gap-2">
+                <label className="font16 text-secondary font-medium ">
+                  Achivements
+                </label>
+              </div>
+              <div className="w-full rounded-md bg-white flex flex-col justify-start items-start">
+                <div className="w-full flex flex-wrap justify-start items-start gap-2 pt-2 px-2">
+                  {(achievements || []).slice().map((val) => {
+                    return (
+                      <div
+                        key={RandomNdigitnumber(4)}
+                        className="px-4 py-1.5 bg-button rounded-md text-primary font14"
+                      >
+                        {val}
+                      </div>
+                    );
+                  })}
+                </div>
+                <input
+                  id="achivements"
+                  name="achivements"
+                  className="w-full h-8 py-2 font14 focus:outline-none focus:border-gray-700 border-0 border-gray-400 rounded-md px-4"
+                  value={achievementstext}
+                  onChange={(e) => {
+                    setAchievementstext(e.target.value);
+                  }}
+                  onBlur={() => {
+                    let cloneText = achievementstext.slice() || '';
+                    let textArr = cloneText?.split(/,|-/) || [];
+                    let clonearr = (achievements || [])?.slice() || [];
+                    if ((textArr || [])?.length > 0) {
+                      (textArr || [])
+                        .filter((vl) => vl?.trim() !== '')
+                        .map((val) => {
+                          if (!clonearr.includes(val)) {
+                            clonearr.push(val || '');
+                          }
+                        });
+                    }
+                    setAchievements(clonearr || []);
+                    setAchievementstext('');
+                  }}
+                  placeholder="Please add all achivements speaperated by comma(,) or hyphen (-)"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="w-full flex flex-col md:flex-row justify-between items-center gap-2 px-4">
+            <div className="w-full flex flex-col justify-start items-start gap-1">
+              <div className="w-full flex justify-start items-center gap-2">
+                <label className="font16 text-secondary font-medium ">
+                  Learnings
+                </label>
+              </div>
+              <div className="w-full rounded-md bg-white flex flex-col justify-start items-start">
+                <div className="w-full flex flex-wrap justify-start items-start gap-2 pt-2 px-2">
+                  {(learnings || []).map((val) => {
+                    return (
+                      <div
+                        key={RandomNdigitnumber(4)}
+                        className="px-4 py-1.5 bg-button rounded-md text-primary font14"
+                      >
+                        {val}
+                      </div>
+                    );
+                  })}
+                </div>
+                <input
+                  id="learnings"
+                  name="learnings"
+                  className="w-full h-8 py-2 font14 focus:outline-none focus:border-gray-700 border-0 border-gray-400 rounded-md px-4"
+                  value={learningstext}
+                  onChange={(e) => {
+                    setLearningstext(e.target.value);
+                  }}
+                  onBlur={() => {
+                    let cloneText = learningstext?.slice() || '';
+                    let textArr = cloneText?.split(/,|-/) || [];
+                    let clonearr = (learnings || [])?.slice() || [];
+                    if ((textArr || [])?.length > 0) {
+                      (textArr || [])
+                        .filter((vl) => vl?.trim() !== '')
+                        .map((val) => {
+                          if (!clonearr.includes(val)) {
+                            clonearr.push(val || '');
+                          }
+                        });
+                    }
+                    setLearnings(clonearr || []);
+                    setLearningstext('');
+                  }}
+                  placeholder="Please add major tasks speaperated by comma(,) or hyphen (-)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="w-full flex justify-end items-center px-4 py-2 ">
+          <div
+            className="px-6 py-2 font14 font-semibold text-white active:scale-95 duration-300 transition-all bg-button hover:bg-buttonhover rounded-md cursor-pointer"
+            onClick={() => {
+              SaveProject();
+            }}
+          >
+            Save
           </div>
         </div>
       </div>
@@ -237,12 +472,12 @@ const AddProjectsModal = () => {
   return (
     <div className="w-1 h-1">
       <ModalComp
-        className="w-5/6 sm:w-4/5 lg:w-3/4 h-3/4 z-30"
+        className="w-5/6 sm:w-4/5 lg:w-3/4 h-4/5 z-30"
         Header={HeaderComp}
         Mainbody={MainbodyComp}
         CloseFunction={() => {
           CloseFunction();
-          // ResetVariable();
+          ResetVariable();
         }}
       />
     </div>

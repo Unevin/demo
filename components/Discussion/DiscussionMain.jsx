@@ -7,7 +7,7 @@ const DiscussionMain = () => {
     <div className="w-full min-h-screen bg-background flex justify-between items-start gap-2">
       <Sidebar selected={'discussion'} />
       <div className="w-full min-h-screen grid">
-        <div className="w-full h-full flex flex-col justify-start items-start border border-red-600">
+        <div className="w-full h-full flex flex-col justify-start items-start ">
           <Header />
           <div className="w-full h-full">Discussion Main</div>
         </div>

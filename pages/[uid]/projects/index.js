@@ -2,6 +2,7 @@ import ProjectsMain from '@/components/Projects/ProjectsMain';
 import Head from 'next/head';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProgectsList = () => {
   return (
