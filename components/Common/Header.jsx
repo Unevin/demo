@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CloseIcon, DownArrow, EditIcon, UserIcon } from '../Icons';
 import SettingsIcon from '../Icons/SettingsIcon';
 import LogoutIcon from '../Icons/LogoutIcon';
 import 'react-phone-input-2/lib/style.css';
 import { RandomNdigitnumber, sendErrorToast } from '@/utils';
 import ProfileEditor from '../Dashboard/ProfileEditor';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddUserData } from '@/Slice/inputSlice';
 
 const Header = () => {
   //state
@@ -25,6 +27,14 @@ const Header = () => {
   });
   //dropdown
   const [opendropdown, setOpendropdown] = useState(false);
+  //redux
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if ((userDetails || {}) && Object.keys(userDetails || {})?.length > 0) {
+      dispatch(AddUserData(userDetails));
+    }
+  }, [userDetails]);
 
   return (
     <div className="w-full flex justify-end items-center px-8 py-2 font-sans">
@@ -64,6 +74,7 @@ const Header = () => {
                 className="w-full flex justify-start items-center gap-2 p-2 rounded-md hover:bg-hover cursor-pointer"
                 onClick={() => {
                   setProfileEditorModal(!profileEditorModal);
+
                   setOpendropdown(false);
                 }}
               >
@@ -96,7 +107,6 @@ const Header = () => {
             setProfileEditorModal(false);
             setOpendropdown(false);
           }}
-          userData={userDetails}
         />
       )}
     </div>

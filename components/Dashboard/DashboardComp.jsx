@@ -1,6 +1,8 @@
 import { RandomNdigitnumber } from '@/utils';
 import React, { useState } from 'react';
 import ProfileEditor from './ProfileEditor';
+import { useDispatch } from 'react-redux';
+import { resetUserData } from '@/Slice/inputSlice';
 
 const DashboardComp = () => {
   //state
@@ -31,8 +33,9 @@ const DashboardComp = () => {
       _id: '613e8c865b82a028e8b62541',
     },
   ]);
-  const [selectedMember, setSelectedMember] = useState({});
   const [memberDetailsModal, setMemberDetailModal] = useState(false);
+  //redux
+  const dispatch = useDispatch();
 
   return (
     <div className="w-full h-full bg-background">
@@ -91,7 +94,7 @@ const DashboardComp = () => {
                     key={RandomNdigitnumber(6)}
                     onClick={() => {
                       let cloneData = JSON.parse(JSON.stringify(member || {}));
-                      setSelectedMember(cloneData);
+                      dispatch(AddUserData(cloneData || {}));
                       setMemberDetailModal(true);
                     }}
                   >
@@ -121,9 +124,8 @@ const DashboardComp = () => {
         <ProfileEditor
           CloseFunction={() => {
             setMemberDetailModal(false);
-            setSelectedMember({});
+            dispatch(resetUserData());
           }}
-          userData={selectedMember}
         />
       )}
     </div>

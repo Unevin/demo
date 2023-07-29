@@ -6,8 +6,9 @@ import PhoneInput from 'react-phone-input-2';
 import { useRouter } from 'next/router';
 import AddSkillModal from './AddSkillModal';
 import AddProjectsModal from './AddProjectsModal';
+import { useSelector } from 'react-redux';
 
-const ProfileEditor = ({ CloseFunction, userData }) => {
+const ProfileEditor = ({ CloseFunction }) => {
   //state Varibales
   //editor
   const [editState, setEditState] = useState(false);
@@ -29,6 +30,9 @@ const ProfileEditor = ({ CloseFunction, userData }) => {
 
   //constant
   const genderObj = { male: 'Male', female: 'Female', other: 'Other' };
+
+  //redux
+  const userData = useSelector((state) => state.input.userDetails);
 
   //router
   const router = useRouter();
@@ -65,6 +69,7 @@ const ProfileEditor = ({ CloseFunction, userData }) => {
   ];
 
   useEffect(() => {
+    console.log('state', 'userData', userData);
     if (userData && Object.keys(userData || {}).length > 0) {
       let phonenumb = userData?.phone?.slice().startsWith('+')
         ? userData?.phone.slice(1)
@@ -82,6 +87,11 @@ const ProfileEditor = ({ CloseFunction, userData }) => {
   }, [userData]);
 
   useEffect(() => {
+    console.log(
+      'state',
+      'condition',
+      (skillsData || [])?.length > 0 && (skillDetailsComplete || [])?.length > 0
+    );
     if (
       (skillsData || [])?.length > 0 &&
       (skillDetailsComplete || [])?.length > 0
@@ -95,7 +105,8 @@ const ProfileEditor = ({ CloseFunction, userData }) => {
           emptyArr.push(skillClone || {});
         }
       });
-      setSKillDetailsDataArr(emptyArr || []);
+      console.log('state', 'emptyArr', emptyArr);
+      // setSKillDetailsDataArr(emptyArr || []);
     }
   }, [skillsData, skillDetailsComplete]);
 
@@ -380,7 +391,7 @@ const ProfileEditor = ({ CloseFunction, userData }) => {
                 <span className="font14">Add Skill</span>
               </div>
             </div>
-            <div className="w-full flex justify-start items-center gap-3 px-6">
+            {/* <div className="w-full flex justify-start items-center gap-3 px-6">
               {(skillDetailsDataArr || []).map((skill) => {
                 return (
                   <div
@@ -391,7 +402,7 @@ const ProfileEditor = ({ CloseFunction, userData }) => {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
           </div>
           <div className="w-full flex flex-col justify-start items-start gap-2">
             <div className="w-full flex justify-between items-center gap-2 px-4">
@@ -408,18 +419,7 @@ const ProfileEditor = ({ CloseFunction, userData }) => {
                 <span className="font14">Add Project</span>
               </div>
             </div>
-            <div className="w-full flex justify-start items-center gap-3 px-6">
-              {/* {(skillDetailsDataArr || []).map((skill) => {
-                return (
-                  <div
-                    key={RandomNdigitnumber(8)}
-                    className="px-5 py-2 rounded-xl font14 font-medium bg-subcard text-primary"
-                  >
-                    {skill?.skillName || ''}
-                  </div>
-                );
-              })} */}
-            </div>
+            <div className="w-full flex justify-start items-center gap-3 px-6"></div>
           </div>
         </div>
         <div className="w-full flex justify-end items-center px-4">
