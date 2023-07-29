@@ -2,7 +2,7 @@ import { RandomNdigitnumber } from '@/utils';
 import React, { useState } from 'react';
 import ProfileEditor from './ProfileEditor';
 import { useDispatch } from 'react-redux';
-import { resetUserData } from '@/Slice/inputSlice';
+import { AddUserData, resetUserData } from '@/Slice/inputSlice';
 
 const DashboardComp = () => {
   //state
