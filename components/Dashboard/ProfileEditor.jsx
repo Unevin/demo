@@ -22,22 +22,8 @@ const ProfileEditor = ({ CloseFunction }) => {
   const [userId, setUserId] = useState('');
   const [skillsData, setSkillsData] = useState([]);
   const [skillDetailsDataArr, setSKillDetailsDataArr] = useState([]);
-  //state
-  const [showSave, setShowSave] = useState(false);
-  //modals
-  const [openSkillModal, setOpenSkillModal] = useState(false);
-  const [projectSkillModal, setProjectSkillModal] = useState(false);
 
-  //constant
-  const genderObj = { male: 'Male', female: 'Female', other: 'Other' };
-
-  //redux
-  const userData = useSelector((state) => state.input.userDetails);
-
-  //router
-  const router = useRouter();
-  const { uid } = router.query;
-  const skillDetailsComplete = [
+  const [skillDetailsComplete, setSkillDetailsComplete] = useState([
     {
       skillName: 'MongoDB',
       shortCode: 'MON',
@@ -66,10 +52,24 @@ const ProfileEditor = ({ CloseFunction }) => {
       _id: '64c4db62dfe5386a7fbeac59',
       __v: 0,
     },
-  ];
+  ]);
+  //state
+  const [showSave, setShowSave] = useState(false);
+  //modals
+  const [openSkillModal, setOpenSkillModal] = useState(false);
+  const [projectSkillModal, setProjectSkillModal] = useState(false);
+
+  //constant
+  const genderObj = { male: 'Male', female: 'Female', other: 'Other' };
+
+  //redux
+  const userData = useSelector((state) => state.input.userDetails);
+
+  //router
+  const router = useRouter();
+  const { uid } = router.query;
 
   useEffect(() => {
-    console.log('state', 'userData', userData);
     if (userData && Object.keys(userData || {}).length > 0) {
       let phonenumb = userData?.phone?.slice().startsWith('+')
         ? userData?.phone.slice(1)
@@ -87,11 +87,6 @@ const ProfileEditor = ({ CloseFunction }) => {
   }, [userData]);
 
   useEffect(() => {
-    console.log(
-      'state',
-      'condition',
-      (skillsData || [])?.length > 0 && (skillDetailsComplete || [])?.length > 0
-    );
     if (
       (skillsData || [])?.length > 0 &&
       (skillDetailsComplete || [])?.length > 0
@@ -105,8 +100,7 @@ const ProfileEditor = ({ CloseFunction }) => {
           emptyArr.push(skillClone || {});
         }
       });
-      console.log('state', 'emptyArr', emptyArr);
-      // setSKillDetailsDataArr(emptyArr || []);
+      setSKillDetailsDataArr(emptyArr || []);
     }
   }, [skillsData, skillDetailsComplete]);
 
@@ -391,7 +385,7 @@ const ProfileEditor = ({ CloseFunction }) => {
                 <span className="font14">Add Skill</span>
               </div>
             </div>
-            {/* <div className="w-full flex justify-start items-center gap-3 px-6">
+            <div className="w-full flex justify-start items-center gap-3 px-6">
               {(skillDetailsDataArr || []).map((skill) => {
                 return (
                   <div
@@ -402,7 +396,7 @@ const ProfileEditor = ({ CloseFunction }) => {
                   </div>
                 );
               })}
-            </div> */}
+            </div>
           </div>
           <div className="w-full flex flex-col justify-start items-start gap-2">
             <div className="w-full flex justify-between items-center gap-2 px-4">
